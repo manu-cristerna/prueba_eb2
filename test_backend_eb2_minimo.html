@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Backend EB2</title>
+</head>
+<body>
+  <h2>🔍 Prueba de conexión al backend EB2</h2>
+  <form id="formTest">
+    <label>Nombre:<br><input type="text" name="nombre" required></label><br><br>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <div id="resultado"></div>
+
+  <script>
+    document.getElementById("formTest").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nombre = e.target.nombre.value;
+
+      const payload = {
+        nombre: nombre,
+        correo: "prueba@correo.com",
+        whatsapp: "+0000000000",
+        profesion: "Tester",
+        sector: "Pruebas de conexión",
+        puntaje: "99.99",
+        interpretacion: "🟢 Conexión de prueba exitosa",
+        porcentaje_exp: "25",
+        porcentaje_formacion: "25",
+        porcentaje_intelectual: "25",
+        porcentaje_visibilidad: "25"
+      };
+
+      document.getElementById("resultado").innerHTML = "<pre>" + JSON.stringify(payload, null, 2) + "</pre>";
+
+      fetch("https://eb2-backend.onrender.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }).then(response => response.json())
+        .then(data => {
+          alert("✅ Enviado correctamente");
+          console.log(data);
+        }).catch(error => {
+          alert("❌ Error al enviar: " + error);
+          console.error(error);
+        });
+    });
+  </script>
+</body>
+</html>
